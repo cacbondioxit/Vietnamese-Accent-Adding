@@ -28,10 +28,10 @@ os.environ['CUDA_LAUNCH_BLOCKING'] = '1'
 checkpoint = "DezS/Accent-and-accentless-Vietnamese-dataset"
 raw_dataset = load_dataset(checkpoint)
 
-# 데이터셋이 너무 크면 학습 시 시간이 오래 걸리므로, 랜덤 샘플링을 해줍니다.
+# It takes too long time for huge dataset, we need sampling.
 raw_dataset['train'] = raw_dataset['train'].shuffle(seed=42).select(range(10000))
 
-# 남아있는 성조를 모두 제거
+# removing accents with regex
 def remove_accents(s):
     s = re.sub(r'[àáạảãâầấậẩẫăằắặẳẵ]', 'a', s)
     s = re.sub(r'[ÀÁẠẢÃĂẰẮẶẲẴÂẦẤẬẨẪ]', 'A', s)
